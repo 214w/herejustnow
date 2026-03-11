@@ -16,13 +16,15 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
         
-        // Helper for icons
+        // Helper to render Lucide icons in a browser environment
         const Icon = ({ name, size = 24, className = "" }) => {
             const [iconHtml, setIconHtml] = useState('');
             useEffect(() => {
                 if (window.lucide) {
                     const icon = window.lucide.icons[name];
-                    if (icon) { setIconHtml(icon.toSvg({ width: size, height: size, class: className })); }
+                    if (icon) {
+                        setIconHtml(icon.toSvg({ width: size, height: size, class: className }));
+                    }
                 }
             }, [name, size, className]);
             return <span dangerouslySetInnerHTML={{ __html: iconHtml }} />;
@@ -40,7 +42,7 @@
             const [feed, setFeed] = useState([
                 { id: 1, type: 'drop', title: 'Fresh Sourdough Loaves', desc: 'Just pulled 4 loaves out of the oven. Still warm.', price: '$8/each', time: 54, distance: '0.1 mi' },
                 { id: 2, type: 'shout', title: 'Need a jumpstart ASAP', desc: 'Car battery died at CVS. Have cables.', price: 'Will tip $20', time: 42, distance: '0.3 mi' },
-                { id: 3, type: 'drop', title: 'Moving Boxes', desc: 'Got about 15 large U-Haul boxes in perfect condition.', price: 'Free', time: 12, distance: '0.8 mi' }
+                { id: 3, type: 'drop', title: 'Moving Boxes', desc: 'Got about 15 large boxes. On the curb.', price: 'Free', time: 12, distance: '0.8 mi' }
             ]);
 
             useEffect(() => {
