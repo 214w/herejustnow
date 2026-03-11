@@ -1,74 +1,76 @@
 <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>HereJustNow | Live. Local. Gone.</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <style>
-            @keyframes pulse-neon {
-                0%, 100% { text-shadow: 0 0 10px #10b981, 0 0 20px #10b981; }
-                50% { text-shadow: 0 0 25px #10b981, 0 0 50px #059669; }
-            }
-            .animate-neon {
-                animation: pulse-neon 2s infinite;
-            }
-            body {
-                background-color: #000000; /* Midnight Black */
-            }
-        </style>
-    </head>
-    <body class="text-gray-100 flex flex-col min-h-screen justify-center items-center px-6">
-    
-        <header class="text-center mb-12">
-            <h1 class="text-5xl md:text-7xl font-black tracking-tighter text-emerald-500 animate-neon mb-4">
-                HereJustNow.com
-            </h1>
-            <p class="text-lg md:text-xl font-medium text-emerald-400">
-                📍 Hyper-local drops. Real-time access. Zero tracking.
-            </p>
-        </header>
-    
-        <main class="max-w-2xl w-full">
-            <section class="bg-zinc-900 border border-emerald-900/50 rounded-2xl p-8 mb-8">
-                <h2 class="text-xl font-bold text-white mb-4">The Stateless Revolution</h2>
-                <p class="text-gray-400 leading-relaxed">
-                    Traditional marketplaces steal your data and track your location. **We think that sucks.** Our app is stateless. No databases. No passwords. Just the magic of the moment.
-                </p>
-            </section>
-    
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                <div class="text-center">
-                    <div class="text-3xl mb-2">⚓</div>
-                    <h3 class="font-bold text-emerald-500">The Anchor</h3>
-                    <p class="text-sm text-gray-500">Sellers pin a location for exactly 1 hour.</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-3xl mb-2">🔥</div>
-                    <h3 class="font-bold text-emerald-500">The Drop</h3>
-                    <p class="text-sm text-gray-500">Nearby buyers see the live "ping" instantly.</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-3xl mb-2">💨</div>
-                    <h3 class="font-bold text-emerald-500">The Vanish</h3>
-                    <p class="text-sm text-gray-500">Signal is wiped from RAM after 60 mins.</p>
-                </div>
-            </div>
-    
-            <div class="flex flex-col md:flex-row gap-4 justify-center">
-    <a href="seller.html" class="bg-emerald-600 hover:bg-emerald-500 text-black font-black py-4 px-8 rounded-full transition-all transform hover:scale-105 text-center">
-        I'M HERE (Seller Drop)
-    </a>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HereJustNow | Live. Local. Gone.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes pulse-neon {
+            0%, 100% { text-shadow: 0 0 10px #10b981, 0 0 20px #10b981; }
+            50% { text-shadow: 0 0 25px #10b981, 0 0 50px #059669; }
+        }
+        .animate-neon {
+            animation: pulse-neon 2s infinite;
+        }
+        body {
+            background-color: #000000;
+        }
+    </style>
+</head>
+<body class="text-gray-100 flex flex-col min-h-screen justify-center items-center px-6 py-12">
 
-    <a href="buyer.html" class="bg-transparent border-2 border-emerald-600 text-emerald-500 font-black py-4 px-8 rounded-full hover:bg-emerald-600/10 transition-all text-center">
-        WHO'S HERE? (Buyer Scan)
-    </a>
-</div>
-        </main>
-    
-        <footer class="mt-16 text-center text-xs text-gray-600 uppercase tracking-widest">
-            We don't want your email. We only want you to be here, just now.
-        </footer>
-    
-    </body>
-    </html>
+    <header class="text-center mb-16">
+        <h1 class="text-5xl md:text-7xl font-black tracking-tighter text-emerald-500 animate-neon mb-4">
+            HereJustNow.com
+        </h1>
+        <p class="text-lg md:text-xl font-medium text-emerald-400">
+            📍 Hyper-local drops. Real-time matching. Zero tracking.
+        </p>
+    </header>
+
+    <main class="w-full max-w-4xl">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            
+            <div class="bg-zinc-900/50 border-2 border-emerald-500/30 p-8 rounded-3xl text-center hover:border-emerald-500 transition-all group flex flex-col justify-between">
+                <div>
+                    <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">💰</div>
+                    <h2 class="text-2xl font-black text-emerald-400 mb-2 uppercase italic">I HAVE...</h2>
+                    <p class="text-gray-400 text-sm mb-6 font-medium">
+                        Post your 60-minute anchor to let the neighborhood know you're open for business.
+                    </p>
+                </div>
+                <a href="seller.html" class="w-full bg-emerald-600 text-black font-black py-4 rounded-xl hover:bg-emerald-500 transition-colors block uppercase tracking-widest">
+                    POST A DROP
+                </a>
+            </div>
+
+            <div class="bg-zinc-900/50 border-2 border-sky-500/30 p-8 rounded-3xl text-center hover:border-sky-500 transition-all group flex flex-col justify-between">
+                <div>
+                    <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">🔍</div>
+                    <h2 class="text-2xl font-black text-sky-400 mb-2 uppercase italic">I NEED...</h2>
+                    <p class="text-gray-400 text-sm mb-6 font-medium">
+                        Shout out what you're looking for. See who’s nearby and ready to help right now.
+                    </p>
+                </div>
+                <a href="buyer.html" class="w-full bg-sky-600 text-black font-black py-4 rounded-xl hover:bg-sky-500 transition-colors block uppercase tracking-widest">
+                    POST A SHOUT
+                </a>
+            </div>
+
+        </div>
+
+        <section class="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 text-center max-w-2xl mx-auto">
+            <h2 class="text-xl font-bold text-white mb-4">The Stateless Revolution</h2>
+            <p class="text-gray-500 leading-relaxed text-sm">
+                No databases. No passwords. No tracking. Just a 60-minute window of visibility for local creators and neighbors.
+            </p>
+        </section>
+    </main>
+
+    <footer class="mt-16 text-center text-[10px] text-gray-600 uppercase tracking-[0.2em] font-bold">
+        We only want you to be here, just now.
+    </footer>
+
+</body>
+</html>
