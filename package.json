@@ -1,23 +1,24 @@
 {
-      "name": "herejustnow",
-      "version": "1.0.0",
-      "private": true,
-      "scripts": {
-        "dev": "next dev",
-        "build": "next build",
-        "start": "next start",
-        "lint": "next lint"
-      },
-      "dependencies": {
-        "dexie": "^3.2.4",
-        "dexie-react-hooks": "^1.1.7",
-        "next": "latest",
-        "react": "latest",
-        "react-dom": "latest"
-      },
-      "devDependencies": {
-        "autoprefixer": "latest",
-        "postcss": "latest",
-        "tailwindcss": "latest"
-      }
-    }
+  "name": "herejustnow",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "dexie": "^3.2.4",
+    "dexie-react-hooks": "^1.1.7",
+    "lucide-react": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "autoprefixer": "latest",
+    "postcss": "latest",
+    "tailwindcss": "latest"
+  }
+}
