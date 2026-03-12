@@ -1,34 +1,262 @@
-import React, { useState } from 'react';
-    import SellerDashboard from '../components/SellerDashboard';
-    import NearbyFeed from '../components/Buyer/NearbyFeed';
-    
-    export default function Home() {
-      const [view, setView] = useState('buyer');
-    
-      return (
-        <div className="min-h-screen bg-gray-100 font-sans">
-          <nav className="bg-white shadow-md p-4 flex justify-center space-x-6 sticky top-0 z-10">
-            <button 
-              onClick={() => setView('buyer')}
-              className={`px-6 py-2 rounded-full font-bold transition ${view === 'buyer' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-500 hover:bg-gray-100'}`}
-            >
-              Find Nearby 📍
-            </button>
-            <button 
-              onClick={() => setView('seller')}
-              className={`px-6 py-2 rounded-full font-bold transition ${view === 'seller' ? 'bg-emerald-600 text-white shadow-lg' : 'text-gray-500 hover:bg-gray-100'}`}
-            >
-              Seller Portal 🏪
-            </button>
-          </nav>
-    
-          <main className="py-8 max-w-4xl mx-auto px-4">
-            {view === 'buyer' ? <NearbyFeed /> : <SellerDashboard />}
-          </main>
-          
-          <footer className="text-center py-8 text-gray-400 text-xs">
-            Built for the HereJustNow Stateless Ghost Marketplace
-          </footer>
-        </div>
-      );
+import React, { useState, useEffect } from 'react';
+import { MapPin, Clock, ArrowLeft, Zap, PlusCircle, Search } from 'lucide-react';
+
+export default function App() {
+  const [currentView, setCurrentView] = useState('home');
+  const [feed, setFeed] = useState([
+    { id: 1, type: 'drop', title: 'Fresh Sourdough Loaves', desc: 'Just pulled 4 loaves out of the oven. Still warm.', price: '$8/each', time: 54, distance: '0.1 mi' },
+    { id: 2, type: 'shout', title: 'Need a jumpstart ASAP', desc: 'Car battery died at the CVS parking lot. Have cables.', price: 'Will tip $20', time: 42, distance: '0.3 mi' },
+    { id: 3, type: 'drop', title: 'Moving Boxes', desc: 'Got about 15 large U-Haul boxes in perfect condition. On the curb.', price: 'Free', time: 12, distance: '0.8 mi' }
+  ]);
+
+  // Simulate time passing (count down)
+  useEffect(() => {
+    if (currentView === 'feed') {
+      const timer = setInterval(() => {
+        setFeed(prev => prev.map(post => ({
+          ...post,
+          time: Math.max(0, post.time - 1)
+        })).filter(post => post.time > 0)); // Auto-remove when time hits 0
+      }, 60000); // Update every minute in real life, but we'll mock it keeping static for this demo unless left open
+      return () => clearInterval(timer);
     }
+  }, [currentView]);
+
+  const handlePost = (type, e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const newPost = {
+      id: Date.now(),
+      type: type,
+      title: formData.get('title'),
+      desc: formData.get('desc'),
+      price: formData.get('price'),
+      time: 60, // 60 minutes
+      distance: '0.0 mi (You)'
+    };
+    setFeed([newPost, ...feed]);
+    setCurrentView('feed');
+  };
+
+  const HeaderNav = () => (
+    <div className="w-full max-w-4xl mx-auto flex justify-between items-center mb-12 border-b border-zinc-800 pb-4">
+      <button 
+        onClick={() => setCurrentView('home')}
+        className="text-gray-400 hover:text-white flex items-center gap-2 transition-colors font-medium"
+      >
+        <ArrowLeft size={20} /> Back
+      </button>
+      <h2 className="text-2xl font-black tracking-tighter text-emerald-500" style={{ textShadow: '0 0 10px #10b981' }}>
+        HJN
+      </h2>
+      <button 
+        onClick={() => setCurrentView('feed')}
+        className="text-gray-400 hover:text-white flex items-center gap-2 transition-colors font-medium"
+      >
+        Live Feed <Zap size={20} className="text-yellow-500" />
+      </button>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-black text-gray-100 flex flex-col items-center px-6 py-12 font-sans selection:bg-emerald-500/30">
+      <style>{`
+        @keyframes pulse-neon {
+          0%, 100% { text-shadow: 0 0 10px #10b981, 0 0 20px #10b981; }
+          50% { text-shadow: 0 0 25px #10b981, 0 0 50px #059669; }
+        }
+        .animate-neon { animation: pulse-neon 2.5s infinite; }
+        
+        @keyframes pulse-neon-sky {
+          0%, 100% { text-shadow: 0 0 10px #0ea5e9, 0 0 20px #0ea5e9; }
+          50% { text-shadow: 0 0 25px #0ea5e9, 0 0 50px #0284c7; }
+        }
+        .animate-neon-sky { animation: pulse-neon-sky 2.5s infinite; }
+      `}</style>
+
+      {/* --- HOME VIEW --- */}
+      {currentView === 'home' && (
+        <div className="flex flex-col items-center justify-center flex-grow w-full max-w-4xl animate-in fade-in zoom-in duration-500">
+          <header className="text-center mb-16">
+            <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-emerald-500 animate-neon mb-4">
+              HereJustNow.com
+            </h1>
+            <p className="text-lg md:text-xl font-medium text-emerald-400 flex items-center justify-center gap-2">
+              <MapPin size={24} /> Hyper-local drops. Real-time matching. Zero tracking.
+            </p>
+          </header>
+
+          <main className="w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+              {/* Seller Button */}
+              <button 
+                onClick={() => setCurrentView('seller')}
+                className="bg-zinc-900/50 border-2 border-emerald-500/30 p-8 rounded-3xl text-center hover:border-emerald-500 transition-all group flex flex-col justify-between"
+              >
+                <div>
+                  <div className="text-5xl mb-4 group-hover:scale-110 transition-transform">💰</div>
+                  <h2 className="text-2xl font-black text-emerald-400 mb-2 uppercase italic">I HAVE...</h2>
+                  <p className="text-gray-400 text-sm mb-6 font-medium">
+                    Post your 60-minute anchor to let the neighborhood know you're open for business.
+                  </p>
+                </div>
+                <div className="w-full bg-emerald-600 text-black font-black py-4 rounded-xl group-hover:bg-emerald-500 transition-colors uppercase tracking-widest flex items-center justify-center gap-2">
+                  <PlusCircle size={20} /> POST A DROP
+                </div>
+              </button>
+
+              {/* Buyer Button */}
+              <button 
+                onClick={() => setCurrentView('buyer')}
+                className="bg-zinc-900/50 border-2 border-sky-500/30 p-8 rounded-3xl text-center hover:border-sky-500 transition-all group flex flex-col justify-between"
+              >
+                <div>
+                  <div className="text-5xl mb-4 group-hover:scale-110 transition-transform">🔍</div>
+                  <h2 className="text-2xl font-black text-sky-400 mb-2 uppercase italic">I NEED...</h2>
+                  <p className="text-gray-400 text-sm mb-6 font-medium">
+                    Shout out what you're looking for. See who's nearby and ready to help right now.
+                  </p>
+                </div>
+                <div className="w-full bg-sky-600 text-black font-black py-4 rounded-xl group-hover:bg-sky-500 transition-colors uppercase tracking-widest flex items-center justify-center gap-2">
+                  <Search size={20} /> POST A SHOUT
+                </div>
+              </button>
+            </div>
+
+            <section className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 text-center max-w-2xl mx-auto cursor-pointer hover:bg-zinc-800 transition-colors" onClick={() => setCurrentView('feed')}>
+              <h2 className="text-xl font-bold text-white mb-4 flex items-center justify-center gap-2">
+                <Zap className="text-yellow-500" /> The Stateless Revolution
+              </h2>
+              <p className="text-gray-500 leading-relaxed text-sm">
+                No databases. No passwords. No tracking. Just a 60-minute window of visibility for local creators and neighbors. 
+                <span className="block mt-2 text-emerald-500 font-bold hover:underline">Click here to view the live feed.</span>
+              </p>
+            </section>
+          </main>
+        </div>
+      )}
+
+      {/* --- SELLER (DROP) VIEW --- */}
+      {currentView === 'seller' && (
+        <div className="w-full max-w-2xl flex-grow animate-in slide-in-from-right duration-300">
+          <HeaderNav />
+          <div className="bg-zinc-900/80 border-2 border-emerald-500/50 rounded-3xl p-8">
+            <h1 className="text-4xl font-black tracking-tighter text-emerald-500 animate-neon mb-2 uppercase italic">Post a Drop</h1>
+            <p className="text-gray-400 mb-8 font-medium">Your offer will be visible to everyone within 2 miles for exactly 60 minutes.</p>
+            
+            <form onSubmit={(e) => handlePost('drop', e)} className="space-y-6">
+              <div>
+                <label className="block text-emerald-400 font-bold mb-2 uppercase tracking-wide text-sm">What do you have?</label>
+                <input required name="title" type="text" placeholder="e.g., Homemade Lemonade, Moving Boxes..." className="w-full bg-black border border-zinc-700 rounded-xl p-4 text-white focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all" />
+              </div>
+              <div>
+                <label className="block text-emerald-400 font-bold mb-2 uppercase tracking-wide text-sm">Details</label>
+                <textarea required name="desc" rows="3" placeholder="Condition, quantities, exact cross-streets..." className="w-full bg-black border border-zinc-700 rounded-xl p-4 text-white focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all"></textarea>
+              </div>
+              <div>
+                <label className="block text-emerald-400 font-bold mb-2 uppercase tracking-wide text-sm">Price / Terms</label>
+                <input required name="price" type="text" placeholder="e.g., $5, Free, Trade for coffee" className="w-full bg-black border border-zinc-700 rounded-xl p-4 text-white focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all" />
+              </div>
+              <button type="submit" className="w-full bg-emerald-600 text-black font-black py-4 rounded-xl hover:bg-emerald-500 transition-colors uppercase tracking-widest flex justify-center items-center gap-2 mt-8">
+                <Clock size={20} /> START 60-MINUTE ANCHOR
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* --- BUYER (SHOUT) VIEW --- */}
+      {currentView === 'buyer' && (
+        <div className="w-full max-w-2xl flex-grow animate-in slide-in-from-left duration-300">
+          <HeaderNav />
+          <div className="bg-zinc-900/80 border-2 border-sky-500/50 rounded-3xl p-8">
+            <h1 className="text-4xl font-black tracking-tighter text-sky-400 animate-neon-sky mb-2 uppercase italic">Post a Shout</h1>
+            <p className="text-gray-400 mb-8 font-medium">Broadcast your need to nearby locals. It vanishes in 60 minutes.</p>
+            
+            <form onSubmit={(e) => handlePost('shout', e)} className="space-y-6">
+              <div>
+                <label className="block text-sky-400 font-bold mb-2 uppercase tracking-wide text-sm">What do you need?</label>
+                <input required name="title" type="text" placeholder="e.g., Jumper cables, Help lifting a couch..." className="w-full bg-black border border-zinc-700 rounded-xl p-4 text-white focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 transition-all" />
+              </div>
+              <div>
+                <label className="block text-sky-400 font-bold mb-2 uppercase tracking-wide text-sm">Details</label>
+                <textarea required name="desc" rows="3" placeholder="Urgency, specifics, your current location..." className="w-full bg-black border border-zinc-700 rounded-xl p-4 text-white focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 transition-all"></textarea>
+              </div>
+              <div>
+                <label className="block text-sky-400 font-bold mb-2 uppercase tracking-wide text-sm">Reward / Offer</label>
+                <input required name="price" type="text" placeholder="e.g., Will tip $20, Can trade a six-pack" className="w-full bg-black border border-zinc-700 rounded-xl p-4 text-white focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 transition-all" />
+              </div>
+              <button type="submit" className="w-full bg-sky-600 text-black font-black py-4 rounded-xl hover:bg-sky-500 transition-colors uppercase tracking-widest flex justify-center items-center gap-2 mt-8">
+                <Clock size={20} /> SHOUT FOR 60 MINUTES
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* --- LIVE FEED VIEW --- */}
+      {currentView === 'feed' && (
+        <div className="w-full max-w-4xl flex-grow animate-in slide-in-from-bottom duration-500">
+          <HeaderNav />
+          
+          <div className="flex justify-between items-end mb-8">
+            <div>
+              <h1 className="text-4xl font-black text-white uppercase tracking-tight flex items-center gap-3">
+                Live Radar <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+              </h1>
+              <p className="text-gray-400 mt-2">Showing active anchors within 2 miles.</p>
+            </div>
+            <div className="text-right text-sm font-bold text-gray-500 uppercase tracking-widest">
+              Dallas, TX
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            {feed.map((item) => (
+              <div 
+                key={item.id} 
+                className={`p-6 rounded-2xl border-l-4 bg-zinc-900/40 hover:bg-zinc-800/80 transition-all cursor-pointer flex flex-col md:flex-row gap-4 justify-between items-start md:items-center ${
+                  item.type === 'drop' ? 'border-emerald-500 border border-y-zinc-800 border-r-zinc-800' : 'border-sky-500 border border-y-zinc-800 border-r-zinc-800'
+                }`}
+              >
+                <div className="flex-grow">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className={`text-xs font-black uppercase tracking-widest px-2 py-1 rounded ${
+                      item.type === 'drop' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-sky-500/20 text-sky-400'
+                    }`}>
+                      {item.type === 'drop' ? 'DROP' : 'SHOUT'}
+                    </span>
+                    <h3 className="text-xl font-bold text-white">{item.title}</h3>
+                  </div>
+                  <p className="text-gray-400 text-sm mb-3">{item.desc}</p>
+                  <div className="flex items-center gap-4 text-xs font-bold text-gray-500 uppercase">
+                    <span className="flex items-center gap-1"><MapPin size={14} /> {item.distance}</span>
+                    <span className="flex items-center gap-1"><Zap size={14} /> {item.price}</span>
+                  </div>
+                </div>
+                
+                <div className={`text-center p-4 rounded-xl min-w-[100px] ${
+                  item.time < 15 ? 'bg-red-500/10 text-red-500' : 'bg-zinc-950 text-gray-300'
+                }`}>
+                  <div className="text-3xl font-black font-mono leading-none">{item.time}</div>
+                  <div className="text-[10px] uppercase tracking-widest font-bold mt-1">Mins Left</div>
+                </div>
+              </div>
+            ))}
+            
+            {feed.length === 0 && (
+              <div className="text-center py-20 text-gray-600 font-medium">
+                No active drops or shouts in your area.<br/>Be the first to anchor!
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* --- FOOTER --- */}
+      <footer className="mt-auto pt-16 text-center text-[10px] text-gray-600 uppercase tracking-[0.2em] font-bold">
+        We only want you to be here, just now.
+      </footer>
+    </div>
+  );
+}
