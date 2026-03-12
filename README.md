@@ -1,8 +1,3 @@
-Here is the Markdown code for the `README.md` file, incorporating the stateless architecture, the chosen tech stack, and some technical best practices for your Progressive Web App (PWA) and authentication setup based on the sources. 
-
-You can copy and paste this directly into your repository.
-
-```markdown
 # HereJustNow.com (SHBN) 📍⏱️
 
 > *"We are building a stateless, privacy-first marketplace where the data is as ephemeral as the physical event. No databases to hack, no passwords to reset—just a 60-minute window of visibility for local creators. You should have been there."*
@@ -94,5 +89,3 @@ To get this project running on your local machine:
 ---
 *Built for the right now. ⏱️*
 ```
-
-Let me know if you need any adjustments to this README or if you'd like to dive into coding the specific components, like the Dexie.js local storage setup or the PWA manifest!
